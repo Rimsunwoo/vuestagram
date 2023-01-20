@@ -1,21 +1,33 @@
 <template>
   <div class="header">
     <ul class="header-button-left">
-      <li>Cancel</li>
+      <li @click="clickCancel">Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li @click="clickNext">Next</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :postData="postData" />
-  <button @click="clickMore">더보기</button>
+  <Container
+    :postData="postData"
+    :step="step"
+    :uploadImg="uploadImg"
+    @postText="message = $event"
+  />
+
+  <button @click="clickMore" v-if="step == 0">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
-      <label for="file" class="input-plus">+</label>
+      <input
+        @change="fileUpload"
+        accept="image/*"
+        type="file"
+        id="file"
+        class="inputfile"
+      />
+      <label for="file" class="input-plus" v-if="step == 0">+</label>
     </ul>
   </div>
 </template>
@@ -24,11 +36,15 @@
 import Container from "./components/Container.vue";
 import postData from "../src/assets/postData";
 import axios from "axios";
+
 export default {
   data() {
     return {
       postData,
       clickNum: 0,
+      step: 0,
+      uploadImg: "",
+      message: "",
     };
   },
   name: "App",
@@ -43,6 +59,34 @@ export default {
           this.postData.push(result.data);
           this.clickNum = this.clickNum == 1 ? 0 : 1;
         });
+    },
+    fileUpload(e) {
+      let a = e.target.files;
+      let imgUrl = URL.createObjectURL(a[0]);
+      this.uploadImg = imgUrl;
+      this.step++;
+    },
+    clickNext(e) {
+      let newPostData = {
+        name: "Guest",
+        userImage: "",
+        postImage: this.uploadImg,
+        likes: 0,
+        date: "",
+        liked: false,
+        content: this.message,
+        filter: "",
+      };
+      if (this.step == 1) {
+        this.step++;
+        e.target.innerText = "Upload";
+      } else if (this.step == 2) {
+        this.postData.unshift(newPostData);
+        this.step = 0;
+      }
+    },
+    clickCancel() {
+      if (this.step != 0) this.step--;
     },
   },
 };
