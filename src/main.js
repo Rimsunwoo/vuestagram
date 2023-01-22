@@ -1,5 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import store from './store'
+import { createApp } from "vue";
+import App from "./App.vue";
+import mitt from "mitt";
+import store from "./store";
 
-createApp(App).use(store).mount('#app')
+let emitter = mitt();
+let app = createApp(App);
+
+app.config.globalProperties.emitter = emitter;
+app.use(store).mount("#app");

@@ -5,15 +5,18 @@
   <!-- 필터선택페이지 -->
   <div v-if="step == 1">
     <div
-      class="upload-image"
+      :class="choseFilter + ` upload-image`"
       :style="{ backgroundImage: `url(${uploadImg})` }"
     ></div>
     <div class="filters">
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
+      <FilterBox
+        :uploadImg="uploadImg"
+        v-for="(filter, i) in filters"
+        :key="i"
+        :filter="filter"
+        @click="choseFilter = filter"
+        >{{ filter }}</FilterBox
+      >
     </div>
   </div>
 
@@ -36,18 +39,51 @@ write!</textarea
 
 <script>
 import Post from "./Post.vue";
+import FilterBox from "./FilterBox.vue";
 export default {
   components: {
     Post,
+    FilterBox,
   },
   data() {
-    return {};
+    return {
+      filters: [
+        "aden",
+        "_1977",
+        "brannan",
+        "brooklyn",
+        "clarendon",
+        "earlybird",
+        "gingham",
+        "hudson",
+        "inkwell",
+        "kelvin",
+        "lark",
+        "lofi",
+        "maven",
+        "mayfair",
+        "moon",
+        "nashville",
+        "perpetua",
+        "reyes",
+        "rise",
+        "slumber",
+        "stinson",
+        "toaster",
+        "valencia",
+        "walden",
+        "willow",
+        "xpro2",
+      ],
+      choseFilter: "",
+    };
   },
   props: {
     postData: Object,
     step: Number,
     uploadImg: String,
   },
+  methods: {},
 };
 </script>
 
