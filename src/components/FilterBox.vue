@@ -2,6 +2,7 @@
   <div
     :class="filter + ` filter-item`"
     :style="{ backgroundImage: `url(${uploadImg})` }"
+    @click="clickFilter"
   >
     <slot></slot>
   </div>
@@ -12,6 +13,11 @@ export default {
   props: {
     uploadImg: String,
     filter: String,
+  },
+  methods: {
+    clickFilter() {
+      this.emitter.emit("changeFilter", this.filter);
+    },
   },
 };
 </script>

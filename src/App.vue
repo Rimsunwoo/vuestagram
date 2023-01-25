@@ -8,11 +8,11 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-
   <Container
     :postData="postData"
     :step="step"
     :uploadImg="uploadImg"
+    :choiceFilter="filter"
     @postText="message = $event"
   />
 
@@ -44,6 +44,7 @@ export default {
       clickNum: 0,
       step: 0,
       uploadImg: "",
+      filter: "",
       message: "",
     };
   },
@@ -75,19 +76,25 @@ export default {
         date: "",
         liked: false,
         content: this.message,
-        filter: "",
+        filter: this.filter,
       };
       if (this.step == 1) {
         this.step++;
         e.target.innerText = "Upload";
       } else if (this.step == 2) {
         this.postData.unshift(newPostData);
+        e.target.innerText = "Next";
         this.step = 0;
       }
     },
     clickCancel() {
       if (this.step != 0) this.step--;
     },
+  },
+  mounted() {
+    this.emitter.on("changeFilter", (a) => {
+      this.filter = a;
+    });
   },
 };
 </script>
@@ -114,6 +121,7 @@ ul {
   height: 40px;
   background-color: white;
   padding-bottom: 8px;
+  z-index: 1;
   position: sticky;
   top: 0;
 }
