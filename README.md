@@ -1,19 +1,5 @@
 # vuestagram
 
-## Project setup
-```
-npm install
-```
+![image](https://user-images.githubusercontent.com/92662974/217739572-1e9d5688-23fa-46c8-87e8-9a5066c7ec3d.png)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+pwa를 통한 모바일 웹 앱 구현
